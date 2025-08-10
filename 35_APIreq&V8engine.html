@@ -1,0 +1,90 @@
+<!--ajax--async js and xml-->
+
+<!-- XMLHttpRequest.readyState Values
+    Value	State	Description
+    0	UNSENT	You just created the request object with new XMLHttpRequest(), but haven’t done anything else yet.
+    1	OPENED	You've called .open() to set the method (like GET/POST) and URL, but haven’t sent it yet. You can now call .setRequestHeader() to set headers.
+    2	HEADERS_RECEIVED	You’ve called .send(), and the response headers/status code are available (but not the body yet).
+    3	LOADING	The response body is being received in chunks. You can access responseText as it grows.
+    4	DONE	The entire response has been received. Now you can safely use responseText, status, etc. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        body,html{
+            
+            height:100%;
+        }
+        body{
+            background-color: #313131;
+            color:silver;
+            display:flex;
+            flex-direction:column;
+            justify-content: center;
+            align-items: center;
+        }
+        .card,img{
+            border-radius:15px;
+        }
+        .card{
+            background-color: orange;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            height:220px;
+            width:200px;
+            flex-wrap: wrap;
+            
+        }
+        img{
+            height:180px;
+            padding-top: 8px;
+            
+        }
+        p{
+            /* margin:0; */
+            color:#313131;
+            font-size: 20px;
+            font-weight: bolder;
+            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <img src="" alt="smth went wron...">
+        <p>Followers:</p>
+    </div>
+</body>
+<script>
+    
+    let follower
+    let p =document.querySelector('p')
+    let pic =document.querySelector('img')
+    const requestUrl = 'https://api.github.com/users/hiteshchoudhary'
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET',requestUrl)
+    xhr.onreadystatechange = function(){
+        console.log(xhr.readyState)
+        if(xhr.readyState === 4){
+            const data = JSON.parse(this.responseText)
+            console.log(typeof data)
+            follower = data.followers
+            
+            pic.src = data.avatar_url                                //card inside pic and followers
+            p.innerHTML = `<span style="color: white">Followers:</span> ${follower}`
+        }
+    }
+    xhr.send() //final punch
+    
+    
+</script>
+</html>
